@@ -7,10 +7,27 @@ const HEADER_HEIGHT = 80;
 const MOBILE_HEADER_HEIGHT = 60;
 
 /**
+ * Проверяет, достигли ли конца страницы
+ */
+function isAtBottom(): boolean {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  const documentHeight = document.documentElement.scrollHeight;
+  const windowHeight = window.innerHeight;
+  
+  return scrollTop + windowHeight >= documentHeight - 1; // -1 для небольшого допуска
+}
+
+/**
  * Плавно прокручивает к элементу с учетом высоты хедера
  */
 export function scrollToSection(sectionId: string): void {
   try {
+    // Проверяем, не находимся ли мы в конце страницы
+    if (isAtBottom()) {
+      console.warn('Достигнут конец страницы, скролл заблокирован');
+      return;
+    }
+
     const element = document.getElementById(sectionId);
     
     if (!element) {
@@ -22,7 +39,12 @@ export function scrollToSection(sectionId: string): void {
     const headerHeight = window.innerWidth <= 768 ? MOBILE_HEADER_HEIGHT : HEADER_HEIGHT;
 
     // Простая и надежная прокрутка без scrollIntoView
-    const elementPosition = element.offsetTop - headerHeight;
+    let elementPosition = element.offsetTop - headerHeight;
+    
+    // Проверяем, не выходит ли позиция за пределы страницы
+    if (elementPosition < 0) {
+      elementPosition = 0;
+    }
     
     window.scrollTo({
       top: elementPosition,
@@ -45,7 +67,12 @@ export function scrollToSection(sectionId: string): void {
     const element = document.getElementById(sectionId);
     if (element) {
       const headerHeight = window.innerWidth <= 768 ? MOBILE_HEADER_HEIGHT : HEADER_HEIGHT;
-      const elementPosition = element.offsetTop - headerHeight;
+      let elementPosition = element.offsetTop - headerHeight;
+      
+      if (elementPosition < 0) {
+        elementPosition = 0;
+      }
+      
       window.scrollTo(0, elementPosition);
     }
     // Сбрасываем блокировку при ошибке
@@ -113,8 +140,20 @@ export function getScrollPosition(): number {
  * Прокручивает к элементу с анимацией
  */
 export function scrollToElementWithAnimation(element: HTMLElement, duration: number = 500): void {
+  // Проверяем, не находимся ли мы в конце страницы
+  if (isAtBottom()) {
+    console.warn('Достигнут конец страницы, скролл заблокирован');
+    return;
+  }
+
   const startPosition = getScrollPosition();
-  const targetPosition = element.offsetTop - HEADER_HEIGHT;
+  let targetPosition = element.offsetTop - HEADER_HEIGHT;
+  
+  // Проверяем, не выходит ли позиция за пределы страницы
+  if (targetPosition < 0) {
+    targetPosition = 0;
+  }
+  
   const distance = targetPosition - startPosition;
   const startTime = performance.now();
 
@@ -134,4 +173,14 @@ export function scrollToElementWithAnimation(element: HTMLElement, duration: num
   }
 
   requestAnimationFrame(animateScroll);
+}
+
+/**
+ * Останавливает скролл, если достигнут конец страницы
+ */
+export function stopScrollIfAtBottom(): void {
+  if (isAtBottom()) {
+    // Останавливаем скролл
+    window.scrollTo(0, document.documentElement.scrollHeight - window.innerHeight);
+  }
 }

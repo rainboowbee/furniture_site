@@ -1,6 +1,11 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-[#0B0B0B]">
+    <footer 
+      className="border-t border-white/10 bg-[#0B0B0B] overscroll-none"
+      style={{ 
+        overscrollBehavior: 'none'
+      }}
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <span className="text-lg tracking-[0.2em] font-semibold text-gold">GARDEN</span>

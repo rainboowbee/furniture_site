@@ -99,7 +99,7 @@ export default function RootLayout({
                 });
               }
               
-              // Предотвращение блокировки прокрутки
+              // Предотвращение блокировки прокрутки и мягкий контроль скролла
               (function() {
                 function resetScrollLock() {
                   document.body.style.overflow = '';
@@ -108,11 +108,43 @@ export default function RootLayout({
                   document.documentElement.style.position = '';
                 }
                 
+                // Функция для мягкого предотвращения скролла после футера
+                function preventScrollAfterFooter() {
+                  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                  const documentHeight = document.documentElement.scrollHeight;
+                  const windowHeight = window.innerHeight;
+                  
+                  // Если достигли конца страницы, мягко останавливаем скролл
+                  if (scrollTop + windowHeight >= documentHeight - 10) {
+                    requestAnimationFrame(() => {
+                      window.scrollTo(0, documentHeight - windowHeight);
+                    });
+                  }
+                }
+                
+                // Функция для предотвращения wheel событий после футера
+                function preventWheelAfterFooter(e) {
+                  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                  const documentHeight = document.documentElement.scrollHeight;
+                  const windowHeight = window.innerHeight;
+                  
+                  // Если достигли конца страницы и пытаемся скроллить вниз
+                  if (scrollTop + windowHeight >= documentHeight - 10 && e.deltaY > 0) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                  }
+                }
+                
                 // Сбрасываем блокировку при загрузке
                 window.addEventListener('load', resetScrollLock);
                 
                 // Сбрасываем блокировку при прокрутке
                 window.addEventListener('scroll', resetScrollLock);
+                window.addEventListener('scroll', preventScrollAfterFooter);
+                
+                // Предотвращаем wheel события после футера
+                window.addEventListener('wheel', preventWheelAfterFooter, { passive: false });
                 
                 // Сбрасываем блокировку при изменении размера окна
                 window.addEventListener('resize', resetScrollLock);

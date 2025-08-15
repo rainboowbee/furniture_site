@@ -10,9 +10,19 @@ import ScrollToTop from "@/components/ScrollToTop";
 
 export default function Home() {
   return (
-    <div className="font-sans bg-black text-white">
+    <div 
+      className="font-sans bg-black text-white overscroll-none" 
+      style={{ 
+        overscrollBehavior: 'none'
+      }}
+    >
       <Header />
-      <main>
+      <main 
+        className="overscroll-none" 
+        style={{ 
+          overscrollBehavior: 'none'
+        }}
+      >
         <Hero />
         <About />
         <Gallery />

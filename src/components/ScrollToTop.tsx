@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { scrollToTop, resetScrollLock } from "@/lib/scroll";
+import { scrollToTop, resetScrollLock, stopScrollIfAtBottom } from "@/lib/scroll";
 
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
@@ -21,6 +21,9 @@ export default function ScrollToTop() {
     const handleScroll = () => {
       // Сбрасываем возможную блокировку
       resetScrollLock();
+      
+      // Останавливаем скролл, если достигнут конец страницы
+      stopScrollIfAtBottom();
     };
 
     // Обработчик для предотвращения блокировки при изменении размера окна

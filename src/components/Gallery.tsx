@@ -14,49 +14,36 @@ export default function Gallery() {
       id: 1,
       title: "Угловой диван для террасы",
       description: "Современный угловой диван с подушками из водоотталкивающей ткани. Металлический каркас, деревянные элементы из тика.",
-      image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1120&auto=format&fit=crop",
-      category: "Диваны",
+      image: "/work/photo_2025-08-13_19-54-37.jpg",
       size: "3.2м × 2.1м"
     },
     {
       id: 2,
       title: "Комплект для патио",
       description: "Стол и скамейки из устойчивого к погодным условиям дерева. Металлические каркасы, прочная конструкция.",
-      image: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=1120&auto=format&fit=crop",
-      category: "Столы и скамейки",
+      image: "/work/photo_2025-08-13_19-54-36.jpg",
       size: "Стол: 1.8м × 0.9м"
     },
     {
       id: 3,
       title: "Лежаки для сада",
       description: "Два комфортных лежака с регулируемыми спинками. Деревянные планки, металлические основания.",
-      image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1120&auto=format&fit=crop",
-      category: "Лежаки",
+      image: "/work/photo_2025-08-13_19-54-35.jpg",
       size: "2.1м × 0.8м каждый"
     },
     {
       id: 4,
       title: "Журнальный столик",
       description: "Низкий столик с деревянной столешницей и металлическим каркасом. Идеален для зоны отдыха.",
-      image: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=1120&auto=format&fit=crop",
-      category: "Столики",
+      image: "/work/photo_2025-08-13_19-54-34.jpg",
       size: "1.2м × 0.6м"
     },
     {
       id: 5,
       title: "Садовая скамейка",
       description: "Классическая скамейка из массива дерева с металлическими ножками. Устойчива к влаге и перепадам температур.",
-      image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1120&auto=format&fit=crop",
-      category: "Скамейки",
+      image: "/work/photo_2025-08-13_19-54-37 (2).jpg",
       size: "1.5м × 0.5м"
-    },
-    {
-      id: 6,
-      title: "Комплект для веранды",
-      description: "Уютный уголок отдыха с диваном и столиком. Адаптирован под размеры веранды заказчика.",
-      image: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=1120&auto=format&fit=crop",
-      category: "Комплекты",
-      size: "4.5м × 3.0м"
     }
   ];
 
@@ -89,21 +76,30 @@ export default function Gallery() {
               className="group cursor-pointer"
               onClick={() => setSelectedImage(project.image)}
             >
-              <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] backdrop-blur group-hover:border-gold/30 transition-all duration-300">
-                <div className="relative h-64 overflow-hidden">
+              <div className="relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.02] backdrop-blur group-hover:border-gold/30 transition-all duration-300 hover:shadow-gold-glow">
+                {/* Контейнер с фиксированными пропорциями для решения проблемы разноразмерности */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <Image
                     src={project.image}
                     alt={project.title}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    priority={index < 3} // Приоритетная загрузка для первых 3 изображений
                   />
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
                   
-                  {/* Категория и размер */}
-                  <div className="absolute top-4 left-4 flex flex-col gap-2">
-                    <span className="inline-block px-3 py-1 bg-gold/90 text-black text-xs font-semibold rounded-full">
-                      {project.category}
-                    </span>
+                  {/* Название товара в овальном белом блоке */}
+                  <div className="absolute top-4 left-4">
+                    <div className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+                      <h3 className="text-sm font-semibold text-gray-900 truncate max-w-[200px]">
+                        {project.title}
+                      </h3>
+                    </div>
+                  </div>
+                  
+                  {/* Только размеры */}
+                  <div className="absolute top-4 right-4">
                     <span className="inline-block px-3 py-1 bg-black/70 text-white text-xs rounded-full">
                       {project.size}
                     </span>
@@ -135,7 +131,8 @@ export default function Gallery() {
                 alt="Увеличенное изображение"
                 width={800}
                 height={600}
-                className="object-contain max-h-[90vh]"
+                className="object-contain max-h-[90vh] rounded-lg"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 800px"
               />
               <button
                 onClick={() => setSelectedImage(null)}
