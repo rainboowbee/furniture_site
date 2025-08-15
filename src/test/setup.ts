@@ -31,10 +31,10 @@ global.IntersectionObserver = vi.fn().mockImplementation(() => ({
 }));
 
 // Мокаем PerformanceObserver
-global.PerformanceObserver = vi.fn().mockImplementation(function PerformanceObserver(callback: any) {
+global.PerformanceObserver = vi.fn().mockImplementation(function PerformanceObserver() {
   return {
     observe: vi.fn(),
     disconnect: vi.fn(),
     supportedEntryTypes: [],
   };
-}) as any;
+}) as unknown as typeof PerformanceObserver;
