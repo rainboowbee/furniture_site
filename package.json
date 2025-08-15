@@ -1,0 +1,52 @@
+{
+  "name": "gardenfab",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build && npx prisma generate && npx prisma migrate dev",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "test:e2e": "playwright test",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio",
+    "type-check": "tsc --noEmit",
+    "analyze": "ANALYZE=true npm run build"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.13.0",
+    "framer-motion": "^12.23.12",
+    "gsap": "^3.13.0",
+    "locomotive-scroll": "^4.1.4",
+    "next": "15.4.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6.7.0",
+    "@types/locomotive-scroll": "^4.1.4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "15.4.6",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "playwright": "^1.45.0",
+    "prisma": "^6.13.0",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^2.0.0"
+  }
+}

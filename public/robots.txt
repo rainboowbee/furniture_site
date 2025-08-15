@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://gardenfab.ru/sitemap.xml
+
+# Disallow admin area
+Disallow: /admin/
+
+# Crawl delay
+Crawl-delay: 1

@@ -1,0 +1,69 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import Image from "next/image";
+import { useRef } from "react";
+
+export default function About() {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section id="about" className="relative bg-[#0B0B0B] py-20 sm:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <motion.div
+            ref={ref}
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-3xl sm:text-4xl font-semibold">
+              О компании GARDENFAB
+            </h2>
+            <p className="mt-4 text-white/80 leading-relaxed">
+              Мы специализируемся на производстве премиальной садовой мебели по индивидуальным проектам: угловые диваны, лежаки, скамейки, столы и стулья для террас, патио и садовых зон.
+            </p>
+            <p className="mt-4 text-white/80 leading-relaxed">
+              Наша команда объединяет опытных мастеров, которые создают мебель с учетом особенностей вашего пространства. Мы используем только качественные материалы: устойчивое к погодным условиям дерево (тик, акация), прочный металл и водоотталкивающие ткани.
+            </p>
+            <p className="mt-4 text-white/80 leading-relaxed">
+              Каждый проект — это уникальное решение, адаптированное под размеры вашей террасы, стиль ландшафта и индивидуальные предпочтения. Мы гарантируем долговечность и комфорт в любое время года.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8 }}
+              className="relative h-56 sm:h-72 rounded-lg overflow-hidden card-hover"
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1120&auto=format&fit=crop"
+                alt="Садовая мебель на террасе"
+                fill
+                className="object-cover"
+              />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="relative h-56 sm:h-72 rounded-lg overflow-hidden card-hover"
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=1120&auto=format&fit=crop"
+                alt="Качественные материалы и детали"
+                fill
+                className="object-cover"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

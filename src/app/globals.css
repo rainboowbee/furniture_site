@@ -1,0 +1,303 @@
+@import "tailwindcss";
+
+:root {
+  --gf-gold: #D4A14A;
+  --gf-black: #000000;
+  --gf-deep: #1A1A1A;
+  --gf-white: #FFFFFF;
+  --gf-beige: #E9E1D2;
+  --gf-warm-gray: #CFC7BA;
+}
+
+@theme inline {
+  --color-gf-gold: var(--gf-gold);
+  --color-gf-black: var(--gf-black);
+  --color-gf-deep: var(--gf-deep);
+  --color-gf-white: var(--gf-white);
+  --color-gf-beige: var(--gf-beige);
+  --color-gf-warm-gray: var(--gf-warm-gray);
+  --font-sans: var(--font-sans);
+}
+
+html, body {
+  scroll-behavior: smooth;
+  background: var(--gf-black);
+  color: var(--gf-white);
+  overflow-x: hidden;
+}
+
+/* Исправление проблем с прокруткой */
+html {
+  scroll-padding-top: 80px; /* Отступ для фиксированного хедера */
+  scroll-behavior: smooth;
+  /* Убираем проблемные свойства */
+  /* -webkit-overflow-scrolling: touch; */
+  /* scroll-snap-type: y proximity; */
+}
+
+body {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  /* Убираем проблемные свойства */
+  /* overflow-y: auto; */
+}
+
+/* Дополнительные исправления для прокрутки */
+* {
+  scroll-margin-top: 80px;
+  /* Убираем проблемные свойства */
+  /* scroll-snap-align: start; */
+}
+
+/* Исправление для Safari и других браузеров */
+@supports (-webkit-overflow-scrolling: touch) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Дополнительные исправления для мобильных устройств */
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 60px;
+  }
+  
+  * {
+    scroll-margin-top: 60px;
+  }
+}
+
+/* Дополнительные исправления для прокрутки */
+html {
+  /* Убираем возможные проблемы с прокруткой на мобильных */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  /* Предотвращаем проблемы с прокруткой на iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Убираем возможные проблемы с горизонтальной прокруткой */
+  overflow-x: hidden;
+  /* Обеспечиваем плавную прокрутку */
+  scroll-behavior: smooth;
+}
+
+/* Исправления для кнопок навигации */
+button {
+  /* Убираем стандартные стили браузера */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Предотвращаем выделение текста при клике */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Убираем outline для лучшего UX */
+  outline: none;
+}
+
+/* Исправления для ссылок */
+a {
+  /* Убираем стандартные стили браузера */
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Дополнительные исправления для прокрутки на разных устройствах */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/*************************
+  Background subtle motion
+*************************/
+.bg-gradient-motion {
+  background: radial-gradient(1200px 800px at 20% 20%, #111 0%, transparent 60%),
+              radial-gradient(900px 700px at 100% 0%, rgba(212,161,74,0.12) 0%, transparent 50%),
+              radial-gradient(1000px 800px at 0% 100%, rgba(255,255,255,0.05) 0%, transparent 55%),
+              linear-gradient(180deg, #0b0b0b 0%, #111 50%, #0b0b0b 100%);
+  animation: gradientDrift 18s ease-in-out infinite alternate;
+}
+
+@keyframes gradientDrift {
+  0% { background-position: 0% 0%, 100% 0%, 0% 100%, 0% 0%; }
+  100% { background-position: 10% 5%, 95% 10%, 5% 95%, 0% 100%; }
+}
+
+.subtle-lines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: 
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.04) 0px,
+      rgba(255,255,255,0.04) 1px,
+      transparent 1px,
+      transparent 60px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.02) 0px,
+      rgba(255,255,255,0.02) 1px,
+      transparent 1px,
+      transparent 60px
+    );
+  mask-image: radial-gradient(ellipse at 50% 50%, black 40%, transparent 90%);
+  pointer-events: none;
+  animation: linesFloat 20s linear infinite;
+}
+
+@keyframes linesFloat {
+  0% { transform: translateY(0px); opacity: 0.6; }
+  50% { transform: translateY(-10px); opacity: 0.8; }
+  100% { transform: translateY(0px); opacity: 0.6; }
+}
+
+/*************************
+  Utilities
+*************************/
+.text-gold { color: var(--gf-gold); }
+.bg-gold { background-color: var(--gf-gold); }
+.border-gold { border-color: var(--gf-gold); }
+.shadow-gold-glow { box-shadow: 0 0 0 0 rgba(212,161,74,0.0), 0 0 24px 4px rgba(212,161,74,0.25); }
+
+.button-primary {
+  background: var(--gf-gold);
+  color: #111;
+  transition: transform 300ms ease, filter 300ms ease, box-shadow 300ms ease;
+}
+.button-primary:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(212,161,74,0.3);
+}
+
+.card-hover {
+  transition: transform 400ms ease, filter 400ms ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px) scale(1.02);
+  filter: saturate(1.05) brightness(1.02);
+}
+
+/*************************
+  Admin Panel Styles
+*************************/
+select {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+select option {
+  background-color: #0B0B0B !important;
+  color: white !important;
+}
+
+select:focus {
+  border-color: var(--gf-gold) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(212, 161, 74, 0.2) !important;
+}
+
+/*************************
+  Process Ring Styles
+*************************/
+.process-ring {
+  filter: drop-shadow(0 0 20px rgba(212, 161, 74, 0.3));
+}
+
+/* Дополнительные стили для лучшего отображения */
+.process-ring path {
+  transition: all 0.3s ease;
+}
+
+.process-ring:hover path {
+  filter: drop-shadow(0 0 15px rgba(212, 161, 74, 0.2));
+}
+
+/* Убираем конфликтующие трансформации */
+.process-step {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center center;
+}
+
+.process-step:hover {
+  transform: scale(1.1);
+}
+
+.process-step.active {
+  animation: pulse-gold 2s infinite;
+}
+
+@keyframes pulse-gold {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(212, 161, 74, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(212, 161, 74, 0);
+  }
+}
+
+/* Анимация появления дуги */
+@keyframes arc-appear {
+  from {
+    stroke-dashoffset: 1000;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+.arc-animation {
+  animation: arc-appear 2s ease-out forwards;
+}
+
+/* Убираем трансформации которые могут влиять на позиционирование */
+.process-ring-container {
+  position: relative;
+}
+
+/* Адаптивность для разных устройств - без трансформаций */
+@media (max-width: 640px) {
+  .process-ring-container {
+    width: 300px !important;
+    height: 300px !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .process-ring-container {
+    width: 400px !important;
+    height: 400px !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .process-ring-container {
+    width: 500px !important;
+    height: 500px !important;
+  }
+}
+
+/* Улучшенная адаптивность для очень маленьких экранов */
+@media (max-width: 480px) {
+  .process-ring-container {
+    width: 280px !important;
+    height: 280px !important;
+  }
+}
