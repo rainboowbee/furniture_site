@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-// import "./globals.css";
+import "./globals.css";
 // import "locomotive-scroll/dist/locomotive-scroll.css";
 import ScrollProvider from "@/components/ScrollProvider";
 import Analytics from "@/components/Analytics";
