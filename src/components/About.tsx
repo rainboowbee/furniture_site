@@ -41,7 +41,7 @@ export default function About() {
               className="relative h-56 sm:h-72 rounded-lg overflow-hidden card-hover"
             >
               <Image
-                src="/work/Komplekt mebeli.jpg"
+                src="/work/about1.jpg"
                 alt="Комплект садовой мебели"
                 fill
                 className="object-cover"
@@ -55,7 +55,7 @@ export default function About() {
               className="relative h-56 sm:h-72 rounded-lg overflow-hidden card-hover"
             >
               <Image
-                src="/work/kashpo2.jpg"
+                src="/work/about2.jpg"
                 alt="Кашпо для сада"
                 fill
                 className="object-cover"
