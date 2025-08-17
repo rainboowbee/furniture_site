@@ -90,19 +90,19 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white pt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-black text-white pt-20 sm:pt-24">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#0B0B0B] rounded-xl border border-white/10 p-6 backdrop-blur"
+          className="bg-[#0B0B0B] rounded-xl border border-white/10 p-4 sm:p-6 backdrop-blur"
         >
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gold">Панель управления</h1>
+              <h1 className="text-2xl lg:text-3xl font-bold text-gold">Панель управления</h1>
               <p className="text-white/70 mt-2">Управление заявками и аналитика</p>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
               <Link 
                 href="/" 
                 className="text-white/70 hover:text-white transition-colors text-sm"
@@ -111,7 +111,7 @@ export default function AdminPage() {
               </Link>
               <button
                 onClick={fetchLeads}
-                className="button-primary rounded-full px-6 py-3 text-sm font-semibold shadow-gold-glow hover:scale-105 transition-transform"
+                className="button-primary rounded-full px-4 sm:px-6 py-2 sm:py-3 text-sm font-semibold shadow-gold-glow hover:scale-105 transition-transform"
               >
                 Обновить
               </button>
@@ -119,12 +119,12 @@ export default function AdminPage() {
           </div>
 
           {/* Фильтры */}
-          <div className="flex gap-3 mb-8">
+          <div className="flex flex-wrap gap-2 sm:gap-3 mb-8">
             {(["all", "new", "contacted", "completed", "rejected"] as const).map((status) => (
               <button
                 key={status}
                 onClick={() => setFilter(status)}
-                className={`px-4 py-2 rounded-full transition-all ${
+                className={`px-3 sm:px-4 py-2 rounded-full transition-all text-sm sm:text-base ${
                   filter === status
                     ? "bg-gold text-black font-semibold shadow-gold-glow"
                     : "bg-white/[0.05] text-white/80 hover:bg-white/[0.1] hover:text-white border border-white/10"
@@ -136,19 +136,20 @@ export default function AdminPage() {
           </div>
 
           {/* Статистика */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8">
             {(["new", "contacted", "completed", "rejected"] as const).map((status) => (
-              <div key={status} className="bg-white/[0.02] p-6 rounded-xl border border-white/10 backdrop-blur">
-                <div className="text-3xl font-bold text-gold">
+              <div key={status} className="bg-white/[0.02] p-4 sm:p-6 rounded-xl border border-white/10 backdrop-blur">
+                <div className="text-2xl sm:text-3xl font-bold text-gold">
                   {leads.filter(lead => lead.status === status).length}
                 </div>
-                <div className="text-sm text-white/70 mt-1">{statusLabels[status]}</div>
+                <div className="text-xs sm:text-sm text-white/70 mt-1">{statusLabels[status]}</div>
               </div>
             ))}
           </div>
 
           {/* Список заявок */}
-          <div className="overflow-x-auto">
+          {/* Десктопная таблица */}
+          <div className="hidden lg:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/10">
@@ -197,6 +198,55 @@ export default function AdminPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Мобильные карточки */}
+          <div className="lg:hidden space-y-4">
+            {filteredLeads.map((lead) => (
+              <div key={lead.id} className="bg-white/[0.02] rounded-xl border border-white/10 p-4 backdrop-blur">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1">
+                    <h3 className="font-medium text-white text-lg">{lead.name}</h3>
+                    <p className="text-sm text-white/60 mt-1">
+                      {new Date(lead.createdAt).toLocaleDateString("ru-RU")}
+                    </p>
+                  </div>
+                  <span className={`inline-block px-3 py-1 rounded-full text-xs text-white font-medium ${statusColors[lead.status]}`}>
+                    {statusLabels[lead.status]}
+                  </span>
+                </div>
+                
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-white/70 text-sm">📞</span>
+                    <a href={`tel:${lead.phone}`} className="text-gold hover:text-gold/80 transition-colors text-sm">
+                      {lead.phone}
+                    </a>
+                  </div>
+                  
+                  {lead.message && (
+                    <div className="flex items-start gap-2">
+                      <span className="text-white/70 text-sm mt-0.5">💬</span>
+                      <p className="text-sm text-white/70 flex-1">{lead.message}</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <select
+                    value={lead.status}
+                    onChange={(e) => updateLeadStatus(lead.id, e.target.value as Lead["status"])}
+                    className="flex-1 text-sm bg-white/[0.05] border border-white/20 rounded-lg px-3 py-2 text-white focus:border-gold/50 focus:outline-none transition-colors"
+                  >
+                    {(["new", "contacted", "completed", "rejected"] as const).map((status) => (
+                      <option key={status} value={status} className="bg-[#0B0B0B] text-white">
+                        {statusLabels[status]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            ))}
           </div>
 
           {filteredLeads.length === 0 && (
