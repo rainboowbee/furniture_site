@@ -25,7 +25,7 @@ export default function About() {
               Мы специализируемся на производстве премиальной садовой мебели по индивидуальным проектам: угловые диваны, лежаки, скамейки, столы и стулья для террас, патио и садовых зон.
             </p>
             <p className="mt-4 text-white/80 leading-relaxed">
-              Наша команда объединяет опытных мастеров, которые создают мебель с учетом особенностей вашего пространства. Мы используем только качественные материалы: устойчивое к погодным условиям дерево (тик, акация), прочный металл и водоотталкивающие ткани.
+              Наша команда объединяет опытных мастеров, которые создают мебель с учетом особенностей вашего пространства. Мы используем только качественные материалы: устойчивую к погодным условиям качественную древесину (тик, акация), прочный металл и водоотталкивающие ткани.
             </p>
             <p className="mt-4 text-white/80 leading-relaxed">
               Каждый проект — это уникальное решение, адаптированное под размеры вашей террасы, стиль ландшафта и индивидуальные предпочтения. Мы гарантируем долговечность и комфорт в любое время года.
@@ -41,8 +41,8 @@ export default function About() {
               className="relative h-56 sm:h-72 rounded-lg overflow-hidden card-hover"
             >
               <Image
-                src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1120&auto=format&fit=crop"
-                alt="Садовая мебель на террасе"
+                src="/work/Komplekt mebeli.jpg"
+                alt="Комплект садовой мебели"
                 fill
                 className="object-cover"
               />
@@ -55,8 +55,8 @@ export default function About() {
               className="relative h-56 sm:h-72 rounded-lg overflow-hidden card-hover"
             >
               <Image
-                src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=1120&auto=format&fit=crop"
-                alt="Качественные материалы и детали"
+                src="/work/kashpo2.jpg"
+                alt="Кашпо для сада"
                 fill
                 className="object-cover"
               />
