@@ -3,102 +3,36 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 
 const updateLeadSchema = z.object({
-  status: z.enum(["new", "contacted", "completed", "rejected"]),
+  status: z.enum(['new', 'contacted', 'converted', 'rejected'])
 });
 
 export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } }
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params; // Добавляем await здесь!
     
-    if (!id) {
-      return NextResponse.json(
-        { error: "ID заявки обязателен" }, 
-        { status: 400 }
-      );
-    }
+    const body = await request.json();
+    const validatedData = updateLeadSchema.parse(body);
 
-    const body = await req.json();
-    const validationResult = updateLeadSchema.safeParse(body);
-    
-    if (!validationResult.success) {
-      return NextResponse.json(
-        { error: "Неверный статус" }, 
-        { status: 400 }
-      );
-    }
-
-    const { status } = validationResult.data;
-
-    // Проверяем существование заявки
-    const existingLead = await prisma.lead.findUnique({
+    const lead = await prisma.lead.update({
       where: { id },
+      data: { status: validatedData.status }
     });
 
-    if (!existingLead) {
-      return NextResponse.json(
-        { error: "Заявка не найдена" }, 
-        { status: 404 }
-      );
-    }
-
-    // Обновляем статус
-    const updatedLead = await prisma.lead.update({
-      where: { id },
-      data: { status },
-    });
-
-    return NextResponse.json(updatedLead);
+    return NextResponse.json(lead);
   } catch (error) {
-    console.error("Error updating lead:", error);
-    return NextResponse.json(
-      { error: "Внутренняя ошибка сервера" }, 
-      { status: 500 }
-    );
-  }
-}
-
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const { id } = params;
-    
-    if (!id) {
+    if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "ID заявки обязателен" }, 
+        { error: 'Неверные данные', details: error.errors },
         { status: 400 }
       );
     }
 
-    // Проверяем существование заявки
-    const existingLead = await prisma.lead.findUnique({
-      where: { id },
-    });
-
-    if (!existingLead) {
-      return NextResponse.json(
-        { error: "Заявка не найдена" }, 
-        { status: 404 }
-      );
-    }
-
-    // Удаляем заявку
-    await prisma.lead.delete({
-      where: { id },
-    });
-
+    console.error('Error updating lead:', error);
     return NextResponse.json(
-      { message: "Заявка успешно удалена" },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error("Error deleting lead:", error);
-    return NextResponse.json(
-      { error: "Внутренняя ошибка сервера" }, 
+      { error: 'Ошибка при обновлении заявки' },
       { status: 500 }
     );
   }
