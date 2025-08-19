@@ -63,8 +63,15 @@ export async function POST(request: Request) {
     const body = await request.json();
     const validatedData = leadSchema.parse(body);
 
+    // Преобразуем undefined в null для Prisma
+    const prismaData = {
+      name: validatedData.name,
+      phone: validatedData.phone,
+      message: validatedData.message || null
+    };
+
     const lead = await prisma.lead.create({
-      data: validatedData
+      data: prismaData
     });
 
     return NextResponse.json(lead, { status: 201 });

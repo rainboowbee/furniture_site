@@ -13,12 +13,12 @@
 
 ## Разработка
 
-```bash
+   ```bash
 # Установка зависимостей
-npm install
+   npm install
 
 # Запуск в режиме разработки
-npm run dev
+   npm run dev
 
 # Сборка для продакшена
 npm run build

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Lead } from '@/types/lead';
+import type { Lead } from '@/types/lead';
 
 export default function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -39,7 +39,7 @@ export default function AdminPage() {
     }
   };
 
-  const updateStatus = async (id: string, status: string) => {
+  const updateStatus = async (id: string, status: 'new' | 'contacted' | 'converted' | 'rejected') => {
     try {
       const response = await fetch(`/api/leads/${id}`, {
         method: 'PATCH',
@@ -187,7 +187,7 @@ export default function AdminPage() {
                   </span>
                   <select
                     value={lead.status}
-                    onChange={(e) => updateStatus(lead.id, e.target.value)}
+                    onChange={(e) => updateStatus(lead.id, e.target.value as 'new' | 'contacted' | 'converted' | 'rejected')}
                     className="bg-gray-800 border border-gray-700 rounded px-3 py-1 text-sm text-white focus:border-amber-500 focus:outline-none"
                   >
                     <option value="new">Новая</option>
@@ -255,7 +255,7 @@ export default function AdminPage() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <select
                           value={lead.status}
-                          onChange={(e) => updateStatus(lead.id, e.target.value)}
+                          onChange={(e) => updateStatus(lead.id, e.target.value as 'new' | 'contacted' | 'converted' | 'rejected')}
                           className="bg-gray-800 border border-gray-700 rounded px-3 py-1 text-sm text-white focus:border-amber-500 focus:outline-none transition-colors duration-200"
                         >
                           <option value="new">Новая</option>

@@ -1,14 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export default function ScrollProvider({ children }: { children: React.ReactNode }) {
-  const scrollRef = useRef<unknown | null>(null);
-
   useEffect(() => {
-    let mounted = true;
-    
     if (typeof window === "undefined") {
       return undefined;
     }
@@ -62,7 +58,7 @@ export default function ScrollProvider({ children }: { children: React.ReactNode
       };
 
       // Функция для предотвращения touch событий после футера
-      const preventTouchAfterFooter = (e: TouchEvent) => {
+      const preventTouchAfterFooter = () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const documentHeight = document.documentElement.scrollHeight;
         const windowHeight = window.innerHeight;
@@ -131,7 +127,6 @@ export default function ScrollProvider({ children }: { children: React.ReactNode
     initStandardScroll();
 
     return () => {
-      mounted = false;
       if (cleanup) {
         cleanup();
       }
